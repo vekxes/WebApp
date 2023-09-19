@@ -23,7 +23,7 @@ namespace WebApp.Services
             return apartments.ToList();
         }
 
-        public void GetApartmentPriceHistories(List<ApartmentPriceHistory> apartmentPriceHistories, SqlConnection conn)
+        private void GetApartmentPriceHistories(List<ApartmentPriceHistory> apartmentPriceHistories, SqlConnection conn)
         {
             var da = new SqlDataAdapter();
             var apartmentPriceHistoryString = @$"select * from apartmentpricehistory";
@@ -45,7 +45,7 @@ namespace WebApp.Services
             }
         }
 
-        public void GetApartments(List<Apartment> apartments, IEnumerable<ApartmentPriceHistory> apartmentPriceHistory, SqlConnection conn, string whereString)
+        private void GetApartments(List<Apartment> apartments, IEnumerable<ApartmentPriceHistory> apartmentPriceHistory, SqlConnection conn, string whereString)
         {
             var da = new SqlDataAdapter();
             var apartmentsString = @"select * from apartments " + whereString;

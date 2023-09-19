@@ -11,7 +11,7 @@
 <h1>Apartments</h1>
 
 <p>
-    @* <a asp-action="Create">Create New</a> *@
+	<div id="chartContainer" style="height: 370px; width: 100%;"></div>
 </p>
 <label for="SearchString">Количество комнат</label>
 <input type="text" name="SearchString" value=""/>
@@ -20,6 +20,5 @@
 <div class="table">
     <partial name="Table" data="@Model">
 </div>
-
 
 

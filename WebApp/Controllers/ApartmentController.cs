@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.Encodings.Web;
+using System.Text.Json;
 using WebApp.Interfaces;
 using WebApp.Models;
 using WebApp.Services;
@@ -32,9 +33,9 @@ namespace WebApp.Controllers
         public IActionResult Filter(string filterName, string filterValue)
         {
             var apartments = new List<Apartment>();
-            if (!string.IsNullOrWhiteSpace(filterName) && !string.IsNullOrWhiteSpace(filterValue))
+            if (!string.IsNullOrWhiteSpace(filterName))
             {
-                var filterString = $"where {filterName} = '{filterValue}'";
+                var filterString = string.IsNullOrWhiteSpace(filterValue) ? "" : $"where {filterName} = '{filterValue}'";
                 apartments = GetApartments(filterString);
             }
             return PartialView("Table", apartments);
@@ -45,8 +46,9 @@ namespace WebApp.Controllers
             try
             {                   
                 var constr = _configuration.GetConnectionString("DefaultApartmentConnection");
-
-                return (List<Apartment>)_service.GetData(whereString, constr);
+                var aparmtnets = (List<Apartment>)_service.GetData(whereString, constr);
+                GetChartData(aparmtnets);
+                return aparmtnets;
             }
             catch (Exception)
             {
@@ -54,6 +56,14 @@ namespace WebApp.Controllers
                 return new List<Apartment>();
             }
         }
-
+        private void GetChartData (List<Apartment> apartments)
+        {
+            var grouped = apartments.Where(x => x.PriceHistory != null).SelectMany(p => p.PriceHistory.Where(ph => ph.PriceChangeDate != DateTime.MinValue).GroupBy(d => d.PriceChangeDate.Date.Month).Select(c => new DataPoint
+            {
+                x = c.FirstOrDefault().PriceChangeDate,
+                y = (int)c.Average(p => p.PriceAtDate)
+            })).ToList();
+            ViewBag.ChartData = JsonSerializer.Serialize(grouped);
+        }
     }
 }

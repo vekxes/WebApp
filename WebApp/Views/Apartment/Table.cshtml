@@ -1,8 +1,12 @@
-﻿@model IEnumerable<WebApp.Models.Apartment>
+﻿@using WebApp.Models;
+@model IEnumerable<WebApp.Models.Apartment>
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    var dataPoints = string.IsNullOrWhiteSpace((string)ViewBag.ChartData) ? "" : (string)ViewBag.ChartData;
+    
+}
 
-
-
+<div style="visibility:hidden" class="dataPoints" data-points="@dataPoints"></div>
 <table class="table">
     <thead>
         <tr>
@@ -68,3 +72,4 @@
         }
     </tbody>
 </table>
+

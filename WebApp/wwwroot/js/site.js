@@ -7,5 +7,73 @@ $(document).on('click', '.search-filter', function () {
     let filterName = 'rooms';
     $.get("/Apartment/Filter", { filterName: filterName, filterValue: filterValue }, function (data) {
         $(".table").html(data)
+        let dataPoints = $(".dataPoints").data("points")
+        dataPoints.forEach((e) => e.x = Date.parse(e.x))
+        //Better to construct options first and then pass it as a parameter
+        var options = {
+
+            title: {
+                text: "График медианы стоимости квартир"
+            },
+            axisX: {
+                title: "Месяцы",
+                valueFormatString: "MMM, YY"
+            },
+            axisY: {
+                title: "Цена",
+                suffix: " Руб",
+                includeZero: true
+            },
+            animationEnabled: true,
+            exportEnabled: false,
+            yValueFormatString: "#,##0.##",
+            data: [
+                {
+                    xValueType: "dateTime",
+                    xValueFormatString: "MMM, YY",
+                    type: "column", //change it to line, area, column, pie, etc
+                    dataPoints: dataPoints
+                }
+            ]
+        };
+        $("#chartContainer").CanvasJSChart(options);
     });
 });
+
+
+
+window.onload = function () {
+    
+    let dataPoints = $(".dataPoints").data("points")
+    dataPoints.forEach((e) => e.x = Date.parse(e.x))
+    debugger
+    //Better to construct options first and then pass it as a parameter
+    var options = {
+        
+        title: {
+            text: "График медианы стоимости квартир"
+        },
+        axisX: {
+            title: "Месяцы",
+            valueFormatString: "MMM, YY"
+        },
+        axisY: {
+            title: "Цена",
+            suffix: " Руб",
+            includeZero: true
+        },
+        animationEnabled: true,
+        exportEnabled: false,        
+        yValueFormatString: "#,##0.##",        
+        data: [
+            {
+                xValueType: "dateTime",
+                xValueFormatString: "MMM, YY",
+                type: "column", //change it to line, area, column, pie, etc
+                dataPoints: dataPoints
+            }
+        ]
+    };
+    $("#chartContainer").CanvasJSChart(options);
+
+}
