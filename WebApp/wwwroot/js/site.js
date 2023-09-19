@@ -8,6 +8,49 @@ $(document).on('click', '.search-filter', function () {
     $.get("/Apartment/Filter", { filterName: filterName, filterValue: filterValue }, function (data) {
         $(".table").html(data)
         let dataPoints = $(".dataPoints").data("points")
+        if (dataPoints) {
+            dataPoints.forEach((e) => e.x = Date.parse(e.x))
+            //Better to construct options first and then pass it as a parameter
+            var options = {
+
+                title: {
+                    text: "График медианы стоимости квартир"
+                },
+                axisX: {
+                    title: "Месяцы",
+                    valueFormatString: "MMM, YY",
+                    interval: 1,
+                    intervalType: "month",
+                    includeZero: true
+                },
+                axisY: {
+                    title: "Цена",
+                    suffix: " Руб",
+                    includeZero: true
+                },
+                animationEnabled: true,
+                exportEnabled: false,
+                yValueFormatString: "#,##0.##",
+                data: [
+                    {
+                        xValueType: "dateTime",
+                        xValueFormatString: "MMM, YY",
+                        type: "column", //change it to line, area, column, pie, etc
+                        dataPoints: dataPoints
+                    }
+                ]
+            };
+            $("#chartContainer").CanvasJSChart(options);
+        }
+    });
+});
+
+
+
+window.onload = function () {
+    
+    let dataPoints = $(".dataPoints").data("points")
+    if (dataPoints) {
         dataPoints.forEach((e) => e.x = Date.parse(e.x))
         //Better to construct options first and then pass it as a parameter
         var options = {
@@ -18,7 +61,7 @@ $(document).on('click', '.search-filter', function () {
             axisX: {
                 title: "Месяцы",
                 valueFormatString: "MMM, YY",
-                interval: 0,
+                interval: 1,
                 intervalType: "month",
                 includeZero: true
             },
@@ -40,45 +83,7 @@ $(document).on('click', '.search-filter', function () {
             ]
         };
         $("#chartContainer").CanvasJSChart(options);
-    });
-});
-
-
-
-window.onload = function () {
+    }
     
-    let dataPoints = $(".dataPoints").data("points")
-    dataPoints.forEach((e) => e.x = Date.parse(e.x))    
-    //Better to construct options first and then pass it as a parameter
-    var options = {
-        
-        title: {
-            text: "График медианы стоимости квартир"
-        },
-        axisX: {
-            title: "Месяцы",
-            valueFormatString: "MMM, YY",
-            interval: 1,
-            intervalType: "month",
-            includeZero: true
-        },
-        axisY: {
-            title: "Цена",
-            suffix: " Руб",
-            includeZero: true
-        },
-        animationEnabled: true,
-        exportEnabled: false,        
-        yValueFormatString: "#,##0.##",        
-        data: [
-            {
-                xValueType: "dateTime",
-                xValueFormatString: "MMM, YY",
-                type: "column", //change it to line, area, column, pie, etc
-                dataPoints: dataPoints
-            }
-        ]
-    };
-    $("#chartContainer").CanvasJSChart(options);
 
 }
