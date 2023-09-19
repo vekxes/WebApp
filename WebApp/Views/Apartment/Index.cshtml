@@ -1,4 +1,25 @@
-﻿@page
-@model WebApp.Pages.Apartments.IndexModel
+﻿@model IEnumerable<WebApp.Models.Apartment>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @{
+    ViewData["Title"] = "Apartments";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    
+    
 }
+
+<h1>Apartments</h1>
+
+<p>
+    @* <a asp-action="Create">Create New</a> *@
+</p>
+<label for="SearchString">Количество комнат</label>
+<input type="text" name="SearchString" value=""/>
+<input type="submit" value="Поиск" class="btn search-filter btn-default" /> |
+<a asp-action="Index">Вернуть весь список</a>
+<div class="table">
+    <partial name="Table" data="@Model">
+</div>
+
+
+

@@ -4,15 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApp.Models
 {
-    public class Apartment
-    {
-        public int Id { get; set; }
-
+    public class Apartment : Entity
+    {        
         [DisplayName("Номер квартиры")]
         public int NumberOfApartment { get; set; }
 
         [DisplayName("Ссылка на сайт застройщика")]
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
         [DisplayName("Текущая цена")]
         public double Price { get; set; }
@@ -22,7 +20,7 @@ namespace WebApp.Models
 
         [DisplayName("История цен")]
         [ForeignKey("ApartmentPriceHistory")]
-        public virtual ICollection<ApartmentPriceHistory> PriceHistory{ get; set; }
+        public virtual ICollection<ApartmentPriceHistory>? PriceHistory { get; set; }
         
 
     }
