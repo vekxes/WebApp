@@ -15,7 +15,7 @@ namespace WebApp.Models
         [DisplayName("Текущая цена")]
         public double Price { get; set; }
 
-        [DisplayName("Количество комнта")]
+        [DisplayName("Количество комнат")]
         public int Rooms { get;set; }
 
         [DisplayName("История цен")]

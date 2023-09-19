@@ -17,7 +17,10 @@ $(document).on('click', '.search-filter', function () {
             },
             axisX: {
                 title: "Месяцы",
-                valueFormatString: "MMM, YY"
+                valueFormatString: "MMM, YY",
+                interval: 0,
+                intervalType: "month",
+                includeZero: true
             },
             axisY: {
                 title: "Цена",
@@ -45,8 +48,7 @@ $(document).on('click', '.search-filter', function () {
 window.onload = function () {
     
     let dataPoints = $(".dataPoints").data("points")
-    dataPoints.forEach((e) => e.x = Date.parse(e.x))
-    debugger
+    dataPoints.forEach((e) => e.x = Date.parse(e.x))    
     //Better to construct options first and then pass it as a parameter
     var options = {
         
@@ -55,7 +57,10 @@ window.onload = function () {
         },
         axisX: {
             title: "Месяцы",
-            valueFormatString: "MMM, YY"
+            valueFormatString: "MMM, YY",
+            interval: 1,
+            intervalType: "month",
+            includeZero: true
         },
         axisY: {
             title: "Цена",

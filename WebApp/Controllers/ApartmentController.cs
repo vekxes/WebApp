@@ -60,7 +60,7 @@ namespace WebApp.Controllers
         {
             var grouped = apartments.Where(x => x.PriceHistory != null).SelectMany(p => p.PriceHistory.Where(ph => ph.PriceChangeDate != DateTime.MinValue).GroupBy(d => d.PriceChangeDate.Date.Month).Select(c => new DataPoint
             {
-                x = c.FirstOrDefault().PriceChangeDate,
+                x = c.First().PriceChangeDate,
                 y = (int)c.Average(p => p.PriceAtDate)
             })).ToList();
             ViewBag.ChartData = JsonSerializer.Serialize(grouped);
